@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Ships locations!</title>
+    <link rel="stylesheet" type="text/css" href="styles/game.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<button class="open-button" id="logoutBtn" onclick="logout()">Logout</button>
+
+<button class="open-button" onclick="openForm()" id="btnLog">Login / Register</button>
+
+<div class="form-popup" id="myForm">
+    <form class="form-container">
+        <h1>Login</h1>
+
+        <label for="userN"><b>UserName</b></label>
+        <input  id="userN" type="text" placeholder="Enter Email" name="email" required>
+
+        <label for="pass"><b>Password</b></label>
+        <input id="pass" type="password" placeholder="Enter Password" name="psw" required>
+
+        <p>Aren't registered yet? <a href="" data-toggle="modal" data-target="#myModal" onclick="closeForm()">SignUp Here!</a> </p> <br>
+
+        <button type="button" class="btn" onclick="login()">Login</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
+
+<div>
+    <p id="players">Players: </p>
+    <span id="playerInfo"></span>
+</div>
+
+<div class="row">
+    <div class="col-xl-5">
+        <h3>You Game Board</h3>
+        <table border="1" id="Table1">
+            <thead>
+            <th></th>
+            <th id="th_0">1</th>
+            <th id="th_1">2</th>
+            <th id="th_2">3</th>
+            <th id="th_3">4</th>
+            <th id="th_4">5</th>
+            <th id="th_5">6</th>
+            <th id="th_6">7</th>
+            <th id="th_7">8</th>
+            <th id="th_8">9</th>
+            <th id="th_9">10</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>A</td>
+                <td id="A1"></td>
+                <td id="A2"></td>
+                <td id="A3"></td>
+                <td id="A4"></td>
+                <td id="A5"></td>
+                <td id="A6"></td>
+                <td id="A7"></td>
+                <td id="A8"></td>
+                <td id="A9"></td>
+                <td id="A10"></td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td id="B1"></td>
+                <td id="B2"></td>
+                <td id="B3"></td>
+                <td id="B4"></td>
+                <td id="B5"></td>
+                <td id="B6"></td>
+                <td id="B7"></td>
+                <td id="B8"></td>
+                <td id="B9"></td>
+                <td id="B10"></td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td id="C1"></td>
+                <td id="C2"></td>
+                <td id="C3"></td>
+                <td id="C4"></td>
+                <td id="C5"></td>
+                <td id="C6"></td>
+                <td id="C7"></td>
+                <td id="C8"></td>
+                <td id="C9"></td>
+                <td id="C10"></td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td id="D1"></td>
+                <td id="D2"></td>
+                <td id="D3"></td>
+                <td id="D4"></td>
+                <td id="D5"></td>
+                <td id="D6"></td>
+                <td id="D7"></td>
+                <td id="D8"></td>
+                <td id="D9"></td>
+                <td id="D10"></td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td id="E1"></td>
+                <td id="E2"></td>
+                <td id="E3"></td>
+                <td id="E4"></td>
+                <td id="E5"></td>
+                <td id="E6"></td>
+                <td id="E7"></td>
+                <td id="E8"></td>
+                <td id="E9"></td>
+                <td id="E10"></td>
+            </tr>
+            <tr>
+                <td>F</td>
+                <td id="F1"></td>
+                <td id="F2"></td>
+                <td id="F3"></td>
+                <td id="F4"></td>
+                <td id="F5"></td>
+                <td id="F6"></td>
+                <td id="F7"></td>
+                <td id="F8"></td>
+                <td id="F9"></td>
+                <td id="F10"></td>
+            </tr>
+            <tr>
+                <td>G</td>
+                <td id="G1"></td>
+                <td id="G2"></td>
+                <td id="G3"></td>
+                <td id="G4"></td>
+                <td id="G5"></td>
+                <td id="G6"></td>
+                <td id="G7"></td>
+                <td id="G8"></td>
+                <td id="G9"></td>
+                <td id="G10"></td>
+            </tr>
+            <tr>
+                <td>H</td>
+                <td id="H"></td>
+                <td id="H2"></td>
+                <td id="H3"></td>
+                <td id="H4"></td>
+                <td id="H5"></td>
+                <td id="H6"></td>
+                <td id="H7"></td>
+                <td id="H8"></td>
+                <td id="H9"></td>
+                <td id="H10"></td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td id="I1"></td>
+                <td id="I2"></td>
+                <td id="I3"></td>
+                <td id="I4"></td>
+                <td id="I5"></td>
+                <td id="I6"></td>
+                <td id="I7"></td>
+                <td id="I8"></td>
+                <td id="I9"></td>
+                <td id="I10"></td>
+            </tr>
+            <tr>
+                <td>J</td>
+                <td id="J1"></td>
+                <td id="J2"></td>
+                <td id="J3"></td>
+                <td id="J4"></td>
+                <td id="J5"></td>
+                <td id="J6"></td>
+                <td id="J7"></td>
+                <td id="J8"></td>
+                <td id="J9"></td>
+                <td id="J10"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xl-5">
+        <h3>Your Opponent Game Board</h3>
+        <table border="1" id="Table2">
+            <thead>
+            <th></th>
+            <th id="th_0_2">1</th>
+            <th id="th_1_2">2</th>
+            <th id="th_2_2">3</th>
+            <th id="th_3_2">4</th>
+            <th id="th_4_2">5</th>
+            <th id="th_5_2">6</th>
+            <th id="th_6_2">7</th>
+            <th id="th_7_2">8</th>
+            <th id="th_8_2">9</th>
+            <th id="th_9_2">10</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>A</td>
+                <td id="A1_2"></td>
+                <td id="A2_2"></td>
+                <td id="A3_2"></td>
+                <td id="A4_2"></td>
+                <td id="A5_2"></td>
+                <td id="A6_2"></td>
+                <td id="A7_2"></td>
+                <td id="A8_2"></td>
+                <td id="A9_2"></td>
+                <td id="A10_2"></td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td id="B1_2"></td>
+                <td id="B2_2"></td>
+                <td id="B3_2"></td>
+                <td id="B4_2"></td>
+                <td id="B5_2"></td>
+                <td id="B6_2"></td>
+                <td id="B7_2"></td>
+                <td id="B8_2"></td>
+                <td id="B9_2"></td>
+                <td id="B10_2"></td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td id="C1_2"></td>
+                <td id="C2_2"></td>
+                <td id="C3_2"></td>
+                <td id="C4_2"></td>
+                <td id="C5_2"></td>
+                <td id="C6_2"></td>
+                <td id="C7_2"></td>
+                <td id="C8_2"></td>
+                <td id="C9_2"></td>
+                <td id="C10_2"></td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td id="D1_2"></td>
+                <td id="D2_2"></td>
+                <td id="D3_2"></td>
+                <td id="D4_2"></td>
+                <td id="D5_2"></td>
+                <td id="D6_2"></td>
+                <td id="D7_2"></td>
+                <td id="D8_2"></td>
+                <td id="D9_2"></td>
+                <td id="D10_2"></td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td id="E1_2"></td>
+                <td id="E2_2"></td>
+                <td id="E3_2"></td>
+                <td id="E4_2"></td>
+                <td id="E5_2"></td>
+                <td id="E6_2"></td>
+                <td id="E7_2"></td>
+                <td id="E8_2"></td>
+                <td id="E9_2"></td>
+                <td id="E10_2"></td>
+            </tr>
+            <tr>
+                <td>F</td>
+                <td id="F1_2"></td>
+                <td id="F2_2"></td>
+                <td id="F3_2"></td>
+                <td id="F4_2"></td>
+                <td id="F5_2"></td>
+                <td id="F6_2"></td>
+                <td id="F7_2"></td>
+                <td id="F8_2"></td>
+                <td id="F9_2"></td>
+                <td id="F10_2"></td>
+            </tr>
+            <tr>
+                <td>G</td>
+                <td id="G1_2"></td>
+                <td id="G2_2"></td>
+                <td id="G3_2"></td>
+                <td id="G4_2"></td>
+                <td id="G5_2"></td>
+                <td id="G6_2"></td>
+                <td id="G7_2"></td>
+                <td id="G8_2"></td>
+                <td id="G9_2"></td>
+                <td id="G10_2"></td>
+            </tr>
+            <tr>
+                <td>H</td>
+                <td id="H_2"></td>
+                <td id="H2_2"></td>
+                <td id="H3_2"></td>
+                <td id="H4_2"></td>
+                <td id="H5_2"></td>
+                <td id="H6_2"></td>
+                <td id="H7_2"></td>
+                <td id="H8_2"></td>
+                <td id="H9_2"></td>
+                <td id="H10_2"></td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td id="I1_2"></td>
+                <td id="I2_2"></td>
+                <td id="I3_2"></td>
+                <td id="I4_2"></td>
+                <td id="I5_2"></td>
+                <td id="I6_2"></td>
+                <td id="I7_2"></td>
+                <td id="I8_2"></td>
+                <td id="I9_2"></td>
+                <td id="I10_2"></td>
+            </tr>
+            <tr>
+                <td>J</td>
+                <td id="J1_2"></td>
+                <td id="J2_2"></td>
+                <td id="J3_2"></td>
+                <td id="J4_2"></td>
+                <td id="J5_2"></td>
+                <td id="J6_2"></td>
+                <td id="J7_2"></td>
+                <td id="J8_2"></td>
+                <td id="J9_2"></td>
+                <td id="J10_2"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <i class="fas fa-envelope prefix grey-text"></i>
+                    <input type="email" id="userNameSU" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="userNameSU">Your email</label>
+                </div>
+
+                <div class="md-form mb-4">
+                    <i class="fas fa-lock prefix grey-text"></i>
+                    <input type="password" id="passSU" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="passSU">Your password</label>
+                </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-deep-orange" onclick="singup()">Sign up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="./scripts/game.js"></script>
+
+</body>
+</html>
+
