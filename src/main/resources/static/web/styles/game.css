@@ -95,9 +95,10 @@ body{
     color: white;
 }
 
-h3, table, #leader-list, th{
+h3, table, #leader-list, th, li{
     color: white;
     margin: 3%;
+    list-style:none
 }
 
 table{

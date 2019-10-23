@@ -5,11 +5,11 @@ fetch(url)
   .then((resp) => resp.json()) // Transform the data into json
   .then(function(data) {
 
-        $.each(data, function (i, item) {
+        $.each(data.games, function (i, item) {
 
             $.each(item.gamePlayer, function (j, item2) {
-                var itemP = item2.player.email;
-                if(item2.player.email){
+                var itemP = item2.player.userName;
+                if(item2.player.userName){
                     player.push(itemP);
                 }
             });

@@ -65,7 +65,7 @@ function closeForm() {
 
 function login(){
         closeForm();
-        $.post("/api/login", { username: document.getElementById("userN").value, password: document.getElementById("pass").value }).done(function(data){
+        $.post("/api/login", { userName: document.getElementById("userN").value, password: document.getElementById("pass").value }).done(function(data){
             $.get('/api/games')
                             .done(function(data) {
                                 console.log(data);
