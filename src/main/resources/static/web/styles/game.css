@@ -101,6 +101,10 @@ h3, table, #leader-list, th, li{
     list-style:none
 }
 
+#userLogged{
+    color: white;
+}
+
 table{
     width: 50%;
 }

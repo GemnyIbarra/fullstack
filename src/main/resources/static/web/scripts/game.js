@@ -83,7 +83,7 @@ function login(){
                               //alert( "Failed: " + textStatus );
                             });
 
-
+                    document.getElementById("userLogged").innerHTML = "Welcome "+document.getElementById("userN").value;
                     document.getElementById("logoutBtn").style.visibility = "visible";
                     document.getElementById("btnLog").style.visibility = "hidden";
 
@@ -102,11 +102,12 @@ function logout(){
 
 function singup(){
     $.post("/api/players", { userName: document.getElementById("userNameSU").value, password: document.getElementById("passSU").value }).done(function(){
+         $('#myModal').addClass('close');
         alert( "Successful Register!");
+
     }).fail(function( jqXHR, textStatus ) {
-                                              console.log(jqXHR);
-                                              console.log(textStatus);
-                                            });;
+        alert(jqXHR.responseText);
+     });;
 }
 
 
