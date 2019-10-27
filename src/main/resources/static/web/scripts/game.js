@@ -102,7 +102,8 @@ function logout(){
 
 function singup(){
     $.post("/api/players", { userName: document.getElementById("userNameSU").value, password: document.getElementById("passSU").value }).done(function(){
-         $('#myModal').addClass('close');
+         //$('#myModal').addClass('close');
+         $("#myModal .close").click();
         alert( "Successful Register!");
 
     }).fail(function( jqXHR, textStatus ) {
