@@ -97,8 +97,12 @@ body{
 
 h3, table, #leader-list, th, li{
     color: white;
-    margin: 3%;
+    margin: 2%;
     list-style:none
+}
+
+a{
+    margin: 1%;
 }
 
 #userLogged{

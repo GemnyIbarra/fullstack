@@ -23,8 +23,11 @@ fetch(url)
                  player.push('N/A');
             }
 
-            $('#gameDetails').append($('<li>').html('Game ID: '+ item.id + ', Date: '
+            $('#gameDetails').append($('<a>').attr("href", "http://localhost:8080/web/game.html?gp="+item.id).addClass("text-white").html('Game ID: '+ item.id + ', Date: '
             + item.created + ' Player 1: '+ player[0] + ' vs Player 2: ' + player[1]));
+
+
+
             player = [];
         });
 

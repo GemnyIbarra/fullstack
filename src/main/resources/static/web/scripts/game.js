@@ -2,6 +2,22 @@ $(function() {
     loadData();
 });
 
+$(function() {
+    $.get('/api/games')
+            .done(function(data) {
+                if(data.player.id){
+                    document.getElementById("logoutBtn").style.visibility = "visible";
+                    document.getElementById("btnLog").style.visibility = "hidden";
+                }else{
+                    document.getElementById("logoutBtn").style.visibility = "hidden";
+                    document.getElementById("btnLog").style.visibility = "visible";
+                }
+            })
+            .fail(function( jqXHR, textStatus ) {
+              //alert( "Failed: " + textStatus );
+            });
+});
+
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -102,13 +118,12 @@ function logout(){
 
 function singup(){
     $.post("/api/players", { userName: document.getElementById("userNameSU").value, password: document.getElementById("passSU").value }).done(function(){
-         //$('#myModal').addClass('close');
          $("#myModal .close").click();
         alert( "Successful Register!");
 
     }).fail(function( jqXHR, textStatus ) {
         alert(jqXHR.responseText);
-     });;
+     });
 }
 
 
