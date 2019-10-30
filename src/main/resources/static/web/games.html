@@ -37,11 +37,21 @@
 </div>
 
 
-<div>
-    <h1 id="userLogged"></h1>
-    <ul class="list-group" id="gameDetails">
-    </ul>
+<div class="row">
+    <div class="col-8">
+        <div>
+            <h1 id="userLogged"></h1>
+            <ul class="list-group" id="gameDetails">
+            </ul>
+        </div>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-outline-secondary" onclick="createGame()">Create Game</button>
+        <button type="button" class="btn btn-outline-success">Join Game</button>
+    </div>
 </div>
+
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">

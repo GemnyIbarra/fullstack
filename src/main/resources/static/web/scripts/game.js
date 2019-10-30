@@ -84,7 +84,6 @@ function login(){
         $.post("/api/login", { userName: document.getElementById("userN").value, password: document.getElementById("pass").value }).done(function(data){
             $.get('/api/games')
                             .done(function(data) {
-                                console.log(data);
                                 //if(data.player != "Guest"){
                                     $.get('/api/game_view/1')
                                             .done(function(data) {
@@ -126,9 +125,29 @@ function singup(){
      });
 }
 
+function createGame(){
+    $.post("/api/games").done(function(data) {
+
+        $.get('/api/game_view/1')
+                                                    .done(function(data) {
+                                                        loadTables(data);
+                                                    })
+                                                    .fail(function( jqXHR, textStatus ) {
+                                                      //alert( "Failed: " + textStatus );
+                                                    });
+        alert( "Game Created!");
+
+    }).fail(function( jqXHR, textStatus ) {
+              alert(jqXHR.responseText);
+           });
+}
 
 
 
+
+
+//Corregir el actualizar el juego
+//qué es el game/view/1?
 
 
 

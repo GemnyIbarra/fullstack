@@ -1,12 +1,10 @@
 package com.codeoftheweb.salvo;
 
-import com.codeoftheweb.salvo.models.Game;
-import com.codeoftheweb.salvo.models.GamePlayer;
-import com.codeoftheweb.salvo.models.Player;
-import com.codeoftheweb.salvo.models.Score;
+import com.codeoftheweb.salvo.models.*;
 import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.repositories.GameRepository;
 import com.codeoftheweb.salvo.repositories.PlayerRepository;
+import com.codeoftheweb.salvo.repositories.ShipRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,9 @@ public class SalvoController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ShipRepository shipRepository;
 
     @RequestMapping("/games")
     public Map<String, Object> getAll(Authentication authentication) {
@@ -164,7 +165,6 @@ public class SalvoController {
         return dto;
     }
 
-    @JsonIgnore
     public Map<String, Object> GameToDTO(Game game) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         Map<String,  Object> score = new LinkedHashMap<>();
@@ -204,5 +204,62 @@ public class SalvoController {
         return score.stream().map(Score -> Score.makeScoreDTO()).collect(Collectors.toList());
 
     }
+
+
+
+
+
+
+
+    /////////////////////////////////SHIP CONTROLLER
+
+    @RequestMapping(path = "games/players/{gpid}/ships", method = RequestMethod.POST)
+    public ResponseEntity<Map> addShips(@PathVariable long gpid, @RequestBody List<Ship> ships, Authentication authentication){
+
+        if(isGuest(authentication)){
+            return new ResponseEntity<>(createMap("Error", "You must login!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        //Player player = playerRepository.findByUserName(authentication.getName()).get();
+        Player player = playerRepository.findByUserName(authentication.getName());
+
+        GamePlayer gamePlayer = gamePlayerRepository.getOne(gpid);
+
+        if(gamePlayer == null){
+            return new ResponseEntity<>(createMap("Error", "You must login!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(gamePlayer.getPlayer().getId() != player.getId()){
+            return new ResponseEntity<>(createMap("Error", "This isn't your game!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(!gamePlayer.getShips().isEmpty()){
+            return new ResponseEntity<>(createMap("Error", "Ships are already assigned!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        ships.forEach(ship -> {
+            ship.setGamePlayer(gamePlayer);
+            shipRepository.save(ship);
+        });
+
+
+
+        return new ResponseEntity<>(createMap("Ok", "Ships created"),HttpStatus.CREATED);
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
