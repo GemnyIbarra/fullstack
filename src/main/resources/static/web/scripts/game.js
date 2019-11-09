@@ -125,22 +125,7 @@ function singup(){
      });
 }
 
-function createGame(){
-    $.post("/api/games").done(function(data) {
 
-        $.get('/api/game_view/1')
-                                                    .done(function(data) {
-                                                        loadTables(data);
-                                                    })
-                                                    .fail(function( jqXHR, textStatus ) {
-                                                      //alert( "Failed: " + textStatus );
-                                                    });
-        alert( "Game Created!");
-
-    }).fail(function( jqXHR, textStatus ) {
-              alert(jqXHR.responseText);
-           });
-}
 
 
 
