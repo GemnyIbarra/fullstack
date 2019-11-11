@@ -131,8 +131,10 @@ table{
 
 #cgbtn{
     border: 1px solid;
+    visibility : hidden;
 }
 
-#btngp*{
+.btn btn-outline-success{
     border: 1px solid;
+    margin: 5%;
 }
