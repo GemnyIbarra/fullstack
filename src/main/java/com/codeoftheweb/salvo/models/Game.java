@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Game {
@@ -17,7 +18,7 @@ public class Game {
     private Date dateGame;
 
     @OneToMany(mappedBy = "game", fetch= FetchType.EAGER)
-    private List<GamePlayer> gamePlayers;
+    private Set<GamePlayer> gamePlayers;
 
     @OneToMany(mappedBy = "game", fetch= FetchType.EAGER)
     private List<Score> score;
@@ -42,11 +43,11 @@ public class Game {
         this.dateGame = dateGame;
     }
 
-    public List<GamePlayer> getGamePlayers() {
+    public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;
     }
 
-    public void setGamePlayers(List<GamePlayer> gamePlayers) {
+    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
 

@@ -134,7 +134,7 @@ table{
     visibility : hidden;
 }
 
-.btn btn-outline-success{
+#gameDetails > button {
     border: 1px solid;
-    margin: 5%;
+    width: 20%;
 }

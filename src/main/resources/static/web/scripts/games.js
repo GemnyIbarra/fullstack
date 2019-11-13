@@ -48,6 +48,10 @@ $(function() {
 
                     }
 
+                    if(data.player != 'Guest'){
+                        document.getElementById("cgbtn").style.visibility = "visible";
+                    }
+
                     flagSamePlayer = false;
                     flagAvailable = false;
                     player = [];
@@ -78,6 +82,8 @@ $(function() {
         console.log(gamePlayerId);
 
         $.post('/api/games/'+gamePlayerId+'/players').done(function(data){
+
+            loadDataGames();
 
             alert( "You're in!");
 

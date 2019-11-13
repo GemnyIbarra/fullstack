@@ -88,11 +88,15 @@ public class SalvoController {
         }
 
         Game gamecito = gameRepository.findById(id).orElse(null);
+        System.out.println(gamecito.getId());
+
+        System.out.println(gamecito.getGamePlayers());
+
 
         if(gamecito == null){
             return new ResponseEntity<>(createMap("error","Game doesn't exist"), HttpStatus.FORBIDDEN);
         }
-
+        System.out.println(gamecito.getGamePlayers().size());
         if(gamecito.getGamePlayers().size() >= 2){
             return new ResponseEntity<>(createMap("error","Game is full"), HttpStatus.FORBIDDEN);
         }
@@ -193,7 +197,7 @@ public class SalvoController {
     }
 
 
-    public List<Map<String, Object>> getGamePlayerList(List<GamePlayer> gamePlayers) {
+    public List<Map<String, Object>> getGamePlayerList(Set<GamePlayer> gamePlayers) {
 
         return gamePlayers.stream().map(GamePlayer -> GamePlayer.GamePlayerToDTO()).collect(Collectors.toList());
 
