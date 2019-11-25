@@ -38,7 +38,7 @@ $(function() {
                         player.push('N/A');
                     }
 
-                    $('#gameDetails').append($('<a>').attr("href", "http://localhost:8080/web/game.html?gp="+item.id).addClass("text-white").html('Game ID: '+ item.id + ', Date: '
+                    $('#gameDetails').append($('<a>').attr("href", "http://localhost:8080/web/game.html?gp="+item.gamePlayer[0].id).addClass("text-white").html('Game ID: '+ item.id + ', Date: '
                     + item.created + ' Player 1: '+ player[0] + ' vs Player 2: ' + player[1]));
 
                     if(flagAvailable == true && data.player != 'Guest' && flagSamePlayer == false ){
@@ -66,9 +66,10 @@ $(function() {
 
         $.post("/api/games").done(function(data) {
 
+
             loadDataGames();
 
-            alert( "Game Created!");
+            window.location.href = 'http://localhost:8080/web/shipsLocation.html?gp='+data.gpid;
 
         }).fail(function( jqXHR, textStatus ) {
                   alert(jqXHR.responseText);
@@ -85,7 +86,7 @@ $(function() {
 
             loadDataGames();
 
-            alert( "You're in!");
+            window.location.href = 'http://localhost:8080/web/shipsLocation.html?gp='+data.gpid;
 
         }).fail(function( jqXHR, textStatus ) {
                            alert(jqXHR.responseText);
@@ -108,3 +109,6 @@ $(function() {
                                           });
 
     };
+
+
+

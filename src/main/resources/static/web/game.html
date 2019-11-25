@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+#div1 {
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+}
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Ships locations!</title>
     <link rel="stylesheet" type="text/css" href="styles/game.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="dist/normalize.css" />
+    <link rel="stylesheet" href="dist/gridstack.css" />
+    <link rel="stylesheet" href="dist/gridstack-extra.css" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -35,10 +46,18 @@
     </form>
 </div>
 
-<div>
-    <p id="players">Players: </p>
-    <span id="playerInfo"></span>
+<div class="row">
+    <div class="col-8">
+        <div>
+            <p id="players">Players: </p>
+            <span id="playerInfo"></span>
+        </div>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-outline-secondary" id="mainbtn" onclick="toMainPage()">Main Page</button>
+    </div>
 </div>
+
 
 <div class="row">
     <div class="col-xl-5">
@@ -151,7 +170,7 @@
             </tr>
             <tr>
                 <td>H</td>
-                <td id="H"></td>
+                <td id="H1"></td>
                 <td id="H2"></td>
                 <td id="H3"></td>
                 <td id="H4"></td>
@@ -207,7 +226,7 @@
             <th id="th_8_2">9</th>
             <th id="th_9_2">10</th>
             </thead>
-            <tbody>
+            <tbody  ondrop="drop(event)" ondragover="allowDrop(event)">
             <tr>
                 <td>A</td>
                 <td id="A1_2"></td>
@@ -344,6 +363,11 @@
 
 </div>
 
+    <img id='bomb1' src="styles/images/bomb.png" draggable="true" width="25" height="25" ondragstart="drag(event)">
+    <img id='bomb2' src="styles/images/bomb.png" draggable="true" width="25" height="25" ondragstart="drag(event)">
+    <img id='bomb3' src="styles/images/bomb.png" draggable="true" width="25" height="25" ondragstart="drag(event)">
+    <img id='bomb4' src="styles/images/bomb.png" draggable="true" width="25" height="25" ondragstart="drag(event)">
+    <img id='bomb5' src="styles/images/bomb.png" draggable="true" width="25" height="25" ondragstart="drag(event)">
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -377,9 +401,31 @@
 </div>
 
 
+<script>
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+</script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="./scripts/game.js"></script>
+
+<script src="dist/jquery-3.4.1.min.js"></script>
+<script src="dist/lodash.min.js"></script>
+<script src="dist/jquery-ui.min.js"></script>
+<script src="dist/gridstack.js"></script>
+<script src="dist/gridstack.jQueryUI.js"></script>
+<script src="dist/jquery.ui.touch-punch.min.js"></script>
 
 </body>
 </html>

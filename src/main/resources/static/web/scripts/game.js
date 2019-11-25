@@ -26,10 +26,18 @@ function getParameterByName(name) {
 function loadTables(data){
 
     let playerInfo;
+    let secondPlayer;
+
+                if(data.gamePlayers.length == 1){
+                    secondPlayer = 'N/A';
+                }else{
+                    secondPlayer = data.gamePlayers[1].player.userName;
+                }
+
                 if(data.gamePlayers[0].id == getParameterByName('gp'))
-                    playerInfo = [data.gamePlayers[0].player.userName, data.gamePlayers[1].player.userName];
+                    playerInfo = [data.gamePlayers[0].player.userName, secondPlayer];
                 else
-                    playerInfo = [data.gamePlayers[1].player.userName, data.gamePlayers[0].player.userName];
+                    playerInfo = [secondPlayer, data.gamePlayers[0].player.userName];
 
                 $('#playerInfo').text(playerInfo[0] + '(you) vs ' + playerInfo[1]);
 
@@ -62,6 +70,7 @@ function loadTables(data){
 }
 
 function loadData(){
+
     $.get('/api/game_view/'+getParameterByName('gp'))
         .done(function(data) {
             loadTables(data);
@@ -126,12 +135,29 @@ function singup(){
 }
 
 
+function putShip(){
+  $.post({
+  url: "/api/games/players/14/ships",
+  data: JSON.stringify([{type: "Battleship", location: ["H2", "H3", "H4"]}]),
+  dataType: "text",
+  contentType: "application/json"
+})
+.done(function (response, status, jqXHR) {
+  alert( "Ship added: " + response );
+})
+.fail(function (jqXHR, status, httpError) {
+  alert("Failed to add ship: " + textStatus + " " + httpError);
+});
+}
 
 
 
 
+function toMainPage(){
+    window.location.href = 'http://localhost:8080/web/games.html';
+}
 
-//Corregir el actualizar el juego
+
 //qué es el game/view/1?
 
 

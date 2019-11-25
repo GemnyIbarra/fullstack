@@ -129,7 +129,7 @@ public class SalvoApplication {
 			GamePlayer gp14 = new GamePlayer(game8, player4);
 			gpRepository.save(gp14);
 
-			String carrier = "Carrier";
+			String carrier = "Aircraft Carrier";
 			String battleship = "Battleship";
 			String submarine = "Submarine";
 			String destroyer = "Destroyer";

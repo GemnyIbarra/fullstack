@@ -1,12 +1,7 @@
 package com.codeoftheweb.salvo;
 
 import com.codeoftheweb.salvo.models.*;
-import com.codeoftheweb.salvo.repositories.GamePlayerRepository;
-import com.codeoftheweb.salvo.repositories.GameRepository;
-import com.codeoftheweb.salvo.repositories.PlayerRepository;
-import com.codeoftheweb.salvo.repositories.ShipRepository;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.catalina.Store;
+import com.codeoftheweb.salvo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +9,9 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import sun.text.resources.CollationData;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,6 +32,9 @@ public class SalvoController {
 
     @Autowired
     private ShipRepository shipRepository;
+
+    @Autowired
+    private SalvoRepository salvoRepository;
 
     @RequestMapping("/games")
     public Map<String, Object> getAll(Authentication authentication) {
@@ -217,7 +215,7 @@ public class SalvoController {
 
     /////////////////////////////////SHIP CONTROLLER
 
-    @RequestMapping(path = "games/players/{gpid}/ships", method = RequestMethod.POST)
+    @RequestMapping(path = "/games/players/{gpid}/ship", method = RequestMethod.POST)
     public ResponseEntity<Map> addShips(@PathVariable long gpid, @RequestBody List<Ship> ships, Authentication authentication){
 
         if(isGuest(authentication)){
@@ -246,21 +244,80 @@ public class SalvoController {
             shipRepository.save(ship);
         });
 
-
-
         return new ResponseEntity<>(createMap("Ok", "Ships created"),HttpStatus.CREATED);
-
-
-
 
     }
 
 
+    @RequestMapping("games/players/{gpid}/ships")
+    public Map<String, Object> getShips(@PathVariable long gpid) {
+
+        GamePlayer gamePlayer = gamePlayerRepository.findById(gpid).get();
+
+        Map<String, Object> dto = new LinkedHashMap<>();
+
+        dto.put("ships", gamePlayer.getShips()
+                .stream()
+                .map(ship -> ship.makeShipDTO())
+                .collect(Collectors.toList()));
+        return dto;
+    }
+
+    /////////////////////////////////SALVO CONTROLLER
+    @RequestMapping("games/players/{gpid}/salvoes")
+    public Map<String, Object> getSalvoes(@PathVariable long gpid) {
+
+        GamePlayer gamePlayer = gamePlayerRepository.findById(gpid).get();
+
+        Map<String, Object> dto = new LinkedHashMap<>();
+
+        dto.put("salvoes", gamePlayer.getSalvoes()
+                .stream()
+                .map(salvo -> salvo.makeSalvoDTO())
+                .collect(Collectors.toList()));
+        return dto;
+    }
+
+    @RequestMapping(path = "/games/players/{gpid}/salvoes", method = RequestMethod.POST)
+    public ResponseEntity<Map> addSalvoes(@PathVariable long gpid, @RequestBody List<Salvo> salvoes, Authentication authentication){
+
+        AtomicReference<Boolean> flagSalvoes = new AtomicReference<>(false);
+
+        if(isGuest(authentication)){
+            return new ResponseEntity<>(createMap("Error", "You must login!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        //Player player = playerRepository.findByUserName(authentication.getName()).get();
+        Player player = playerRepository.findByUserName(authentication.getName());
+
+        GamePlayer gamePlayer = gamePlayerRepository.getOne(gpid);
+
+        if(gamePlayer == null){
+            return new ResponseEntity<>(createMap("Error", "You must login!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if(gamePlayer.getPlayer().getId() != player.getId()){
+            return new ResponseEntity<>(createMap("Error", "This isn't your game!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        salvoes.forEach(salvo -> {
+            salvo.setGamePlayer(gamePlayer);
+            if(salvo.getLocation().size() < 6){
+                salvoRepository.save(salvo);
+            }else{
+                flagSalvoes.set(true);
+            }
 
 
+        });
 
+        if(flagSalvoes.get()){
+            return new ResponseEntity<>(createMap("Error", "Too many shots"), HttpStatus.FORBIDDEN);
+        }
 
+        return new ResponseEntity<>(createMap("Ok", "Salvoes made"),HttpStatus.CREATED);
 
+    }
 
 
 
