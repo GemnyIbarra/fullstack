@@ -135,28 +135,62 @@ function singup(){
 }
 
 
-function putShip(){
-  $.post({
-  url: "/api/games/players/14/ships",
-  data: JSON.stringify([{type: "Battleship", location: ["H2", "H3", "H4"]}]),
-  dataType: "text",
-  contentType: "application/json"
-})
-.done(function (response, status, jqXHR) {
-  alert( "Ship added: " + response );
-})
-.fail(function (jqXHR, status, httpError) {
-  alert("Failed to add ship: " + textStatus + " " + httpError);
-});
-}
-
-
-
 
 function toMainPage(){
     window.location.href = 'http://localhost:8080/web/games.html';
 }
 
+function shoot(){
+
+    var shoot1 = obtenerPosicion("bomb1");
+    var shoot2 = obtenerPosicion("bomb2");
+    var shoot3 = obtenerPosicion("bomb3");
+    var shoot4 = obtenerPosicion("bomb4");
+    var shoot5 = obtenerPosicion("bomb5");
+
+    console.log("shoot1: "+shoot1);
+    console.log("shoot2: "+shoot2);
+    console.log("shoot3: "+shoot3);
+    console.log("shoot4: "+shoot4);
+    console.log("shoot5: "+shoot5);
+
+    $.post({
+      url: "/api/games/players/"+getParameterByName('gp')+"/salvoes",
+      data: JSON.stringify([{turn: "3", location: [shoot1, shoot2, shoot3, shoot4, shoot5]}]),
+      dataType: "text",
+      contentType: "application/json"
+    })
+    .done(function (response, status, jqXHR) {
+      alert( "BOOM! " + response );
+    })
+    .fail(function (jqXHR, status, httpError) {
+      alert("Failed shooting: " + textStatus + " " + httpError);
+    });
+}
+
+
+const obtenerPosicion = function (bombNumber) {
+    var bomb = new Object();
+    bomb["name"] = $("#" + bombNumber).attr('id');
+    bomb["x"] = $("#" + bombNumber).attr('data-gs-x');
+    bomb["y"] = $("#" + bombNumber).attr('data-gs-y');
+    bomb["width"] = $("#" + bombNumber).attr('data-gs-width');
+    bomb["height"] = $("#" + bombNumber).attr('data-gs-height');
+    bomb["positions"] = [];
+    if (bomb.height == 1) {
+        for (i = 1; i <= bomb.width; i++) {
+            bomb.positions.push(String.fromCharCode(parseInt(bomb.y) + 65) + (parseInt(bomb.x) + i))
+        }
+    } else {
+        for (i = 0; i < bomb.height; i++) {
+            bomb.positions.push(String.fromCharCode(parseInt(bomb.y) + 65 + i) + (parseInt(bomb.x) + 1))
+        }
+    }
+    var objBomb = new Object();
+    objBomb["type"] = bomb.name;
+    objBomb["location"] = bomb.positions;
+    return objBomb;
+}
 
 //qué es el game/view/1?
 

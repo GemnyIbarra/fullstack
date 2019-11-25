@@ -139,7 +139,19 @@ table{
     width: 20%;
 }
 
+td{
+    width: 27px;
+    height: 27px;
+}
 
+#bombBox{
+    width: max-content;
+    height: max-content;
+}
+
+#table1{
+    width: 50%;
+}
 
 
 
