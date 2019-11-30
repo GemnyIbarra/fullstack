@@ -279,7 +279,7 @@ public class SalvoController {
     }
 
     @RequestMapping(path = "/games/players/{gpid}/salvoes", method = RequestMethod.POST)
-    public ResponseEntity<Map> addSalvoes(@PathVariable long gpid, @RequestBody List<Salvo> salvoes, Authentication authentication){
+    public ResponseEntity<Map> addSalvoes(@PathVariable long gpid, @RequestBody Salvo salvo, Authentication authentication){
 
         AtomicReference<Boolean> flagSalvoes = new AtomicReference<>(false);
 
@@ -300,16 +300,13 @@ public class SalvoController {
             return new ResponseEntity<>(createMap("Error", "This isn't your game!"), HttpStatus.UNAUTHORIZED);
         }
 
-        salvoes.forEach(salvo -> {
-            salvo.setGamePlayer(gamePlayer);
-            if(salvo.getLocation().size() < 6){
-                salvoRepository.save(salvo);
-            }else{
-                flagSalvoes.set(true);
-            }
+        salvo.setGamePlayer(gamePlayer);
 
-
-        });
+        if(salvo.getLocation().size() < 6){
+            salvoRepository.save(salvo);
+        }else{
+            flagSalvoes.set(true);
+        }
 
         if(flagSalvoes.get()){
             return new ResponseEntity<>(createMap("Error", "Too many shots"), HttpStatus.FORBIDDEN);
