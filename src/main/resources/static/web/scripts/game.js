@@ -1,3 +1,6 @@
+var gameInfo;
+var currentlyGamePlayer;
+
 $(function() {
     loadData();
 });
@@ -6,6 +9,7 @@ $(function() {
     $.get('/api/games')
             .done(function(data) {
                 if(data.player.id){
+                    currentlyGamePlayer = data.player.id;
                     document.getElementById("logoutBtn").style.visibility = "visible";
                     document.getElementById("btnLog").style.visibility = "hidden";
                 }else{
@@ -73,6 +77,7 @@ function loadData(){
 
     $.get('/api/game_view/'+getParameterByName('gp'))
         .done(function(data) {
+            gamesInfo = data;
             loadTables(data);
         })
         .fail(function( jqXHR, textStatus ) {
@@ -164,6 +169,8 @@ function shoot(){
         shoots.push(shoot5);
     }
 
+    console.log("**********"+getTurn());
+
     $.post({
       url: "/api/games/players/"+getParameterByName('gp')+"/salvoes",
       data: JSON.stringify({turn: "3", location: shoots}),
@@ -172,7 +179,7 @@ function shoot(){
     })
     .done(function (response, status, jqXHR) {
       alert( "BOOM! " + response );
-      
+
       loadData();
     })
     .fail(function (jqXHR, status, httpError) {
@@ -201,7 +208,23 @@ const obtenerPosicion = function (bombNumber) {
     return locEnd;
 }
 
-//qué es el game/view/1?
+function getTurn(){
+  var arr=[]
+  var turn = 0;
+  gameInfo.salvoes.map(function(salvo){
+    if(salvo.player == currentlyGamePlayer.id){
+      arr.push(salvo.turn);
+    }
+  })
+  turn = Math.max.apply(Math, arr);
+
+  if (turn == -Infinity){
+    return 1;
+  } else {
+    return turn + 1;
+  }
+
+}
 
 
 
