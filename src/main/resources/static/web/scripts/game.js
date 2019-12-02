@@ -1,4 +1,4 @@
-var gameInfo;
+var gamesInfo;
 var currentlyGamePlayer;
 
 $(function() {
@@ -169,11 +169,9 @@ function shoot(){
         shoots.push(shoot5);
     }
 
-    console.log("**********"+getTurn());
-
     $.post({
       url: "/api/games/players/"+getParameterByName('gp')+"/salvoes",
-      data: JSON.stringify({turn: "3", location: shoots}),
+      data: JSON.stringify({turn: getTurn(), location: shoots}),
       dataType: "text",
       contentType: "application/json"
     })
@@ -211,7 +209,7 @@ const obtenerPosicion = function (bombNumber) {
 function getTurn(){
   var arr=[]
   var turn = 0;
-  gameInfo.salvoes.map(function(salvo){
+  gamesInfo.salvoes.map(function(salvo){
     if(salvo.player == currentlyGamePlayer.id){
       arr.push(salvo.turn);
     }
