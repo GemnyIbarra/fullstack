@@ -166,7 +166,7 @@ public class SalvoController {
                .stream()
                 .map(salvo -> salvo.makeSalvoDTO())
                 .collect(Collectors.toList()));
-        dto.put("hits", gamePlayer.hitsdto(gamePlayer,opponent));
+        dto.put("hits", gamePlayer.hitsDto(gamePlayer,opponent));
         return dto;
     }
 

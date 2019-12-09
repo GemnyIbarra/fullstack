@@ -123,19 +123,19 @@ public class GamePlayer {
 
         for (Ship ship: self.getShips()) {
             switch (ship.getType()){
-                case "carrier":
+                case "Aircraft Carrier":
                     carrierLocations = ship.getLocation();
                     break ;
-                case "battleship" :
+                case "Battleship" :
                     battleshipLocations = ship.getLocation();
                     break;
-                case "destroyer":
+                case "Destroyer":
                     destroyerLocations = ship.getLocation();
                     break;
-                case "submarine":
+                case "Submarine":
                     submarineLocations = ship.getLocation();
                     break;
-                case "patrol_boat":
+                case "Patrol Boat":
                     patrolboatLocations = ship.getLocation();
                     break;
             }
@@ -200,13 +200,14 @@ public class GamePlayer {
             hitsMapPerTurn.put("hitLocations", hitCellsList);
             hitsMapPerTurn.put("damages", damagesPerTurn);
             hitsMapPerTurn.put("missed", missedShots);
+
             dto.add(hitsMapPerTurn);
         }
 
         return dto;
     }
 
-    public Map<String,Object> hitsdto(GamePlayer self,
+    public Map<String,Object> hitsDto(GamePlayer self,
                                        GamePlayer opponent){
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("self", getHits(self,opponent));
