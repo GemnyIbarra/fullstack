@@ -6,10 +6,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class GamePlayer {
@@ -99,5 +96,124 @@ public class GamePlayer {
         Map<String,  Object> dto = player.makePlayerScoreDTO();
         return dto;
     }
+
+    //////////////////////////////////////////////////////////
+
+    public Optional<GamePlayer> getOpponent(){
+        return this.getGame().getGamePlayers()
+                .stream()
+                .filter(opponent -> this.getId() != opponent.getId())
+                .findFirst();
+    }
+
+    private List<Map> getHits(GamePlayer self,
+                              GamePlayer opponent){
+        List<Map> dto = new ArrayList<>();
+
+        int carrierDamage = 0;
+        int destroyerDamage = 0;
+        int patrolboatDamage = 0;
+        int submarineDamage = 0;
+        int battleshipDamage = 0;
+        List<String> carrierLocations = new ArrayList<>();
+        List<String> destroyerLocations = new ArrayList<>();
+        List<String> submarineLocations = new ArrayList<>();
+        List<String> patrolboatLocations = new ArrayList<>();
+        List<String> battleshipLocations = new ArrayList<>();
+
+        for (Ship ship: self.getShips()) {
+            switch (ship.getType()){
+                case "carrier":
+                    carrierLocations = ship.getLocation();
+                    break ;
+                case "battleship" :
+                    battleshipLocations = ship.getLocation();
+                    break;
+                case "destroyer":
+                    destroyerLocations = ship.getLocation();
+                    break;
+                case "submarine":
+                    submarineLocations = ship.getLocation();
+                    break;
+                case "patrol_boat":
+                    patrolboatLocations = ship.getLocation();
+                    break;
+            }
+        }
+        for (Salvo salvo : opponent.getSalvoes()) {
+            Integer carrierHitsInTurn = 0;
+            Integer battleshipHitsInTurn = 0;
+            Integer submarineHitsInTurn = 0;
+            Integer destroyerHitsInTurn = 0;
+            Integer patrolboatHitsInTurn = 0;
+            Integer missedShots = salvo.getLocation().size();
+            Map<String, Object> hitsMapPerTurn = new LinkedHashMap<>();
+            Map<String, Object> damagesPerTurn = new LinkedHashMap<>();
+            List<String> salvoLocationsList = new ArrayList<>();
+            List<String> hitCellsList = new ArrayList<>();
+            salvoLocationsList.addAll(salvo.getLocation());
+            for (String salvoShot : salvoLocationsList) {
+                if (carrierLocations.contains(salvoShot)) {
+                    carrierDamage++;
+                    carrierHitsInTurn++;
+                    hitCellsList.add(salvoShot);
+                    missedShots--;
+                }
+                if (battleshipLocations.contains(salvoShot)) {
+                    battleshipDamage++;
+                    battleshipHitsInTurn++;
+                    hitCellsList.add(salvoShot);
+                    missedShots--;
+                }
+                if (submarineLocations.contains(salvoShot)) {
+                    submarineDamage++;
+                    submarineHitsInTurn++;
+                    hitCellsList.add(salvoShot);
+                    missedShots--;
+                }
+                if (destroyerLocations.contains(salvoShot)) {
+                    destroyerDamage++;
+                    destroyerHitsInTurn++;
+                    hitCellsList.add(salvoShot);
+                    missedShots--;
+                }
+                if (patrolboatLocations.contains(salvoShot)) {
+                    patrolboatDamage++;
+                    patrolboatHitsInTurn++;
+                    hitCellsList.add(salvoShot);
+                    missedShots--;
+                }
+            }
+
+
+            damagesPerTurn.put("carrierHits", carrierHitsInTurn);
+            damagesPerTurn.put("battleshipHits", battleshipHitsInTurn);
+            damagesPerTurn.put("submarineHits", submarineHitsInTurn);
+            damagesPerTurn.put("destroyerHits", destroyerHitsInTurn);
+            damagesPerTurn.put("patrolboatHits", patrolboatHitsInTurn);
+            damagesPerTurn.put("carrier", carrierDamage);
+            damagesPerTurn.put("battleship", battleshipDamage);
+            damagesPerTurn.put("submarine", submarineDamage);
+            damagesPerTurn.put("destroyer", destroyerDamage);
+            damagesPerTurn.put("patrolboat", patrolboatDamage);
+            hitsMapPerTurn.put("turn", salvo.getTurn());
+            hitsMapPerTurn.put("hitLocations", hitCellsList);
+            hitsMapPerTurn.put("damages", damagesPerTurn);
+            hitsMapPerTurn.put("missed", missedShots);
+            dto.add(hitsMapPerTurn);
+        }
+
+        return dto;
+    }
+
+    public Map<String,Object> hitsdto(GamePlayer self,
+                                       GamePlayer opponent){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("self", getHits(self,opponent));
+        dto.put("opponent", getHits(opponent,self));
+        return dto;
+    }
+
+
 
 }

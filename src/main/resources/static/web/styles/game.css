@@ -307,3 +307,8 @@ td{
 #table2{
     table-layout: fixed;
 }
+
+#shootsHistory{
+    margin-left: 20%;
+    width: 150%;
+}

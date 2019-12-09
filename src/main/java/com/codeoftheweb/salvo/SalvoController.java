@@ -148,6 +148,8 @@ public class SalvoController {
     public Map<String, Object> getGameViewByGamePlayerId(@PathVariable Long nn) {
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
 
+        GamePlayer opponent = gamePlayer.getOpponent().orElse(null);
+
         Map<String, Object> dto = new LinkedHashMap<>();
 
         dto.put("id", gamePlayer.getGame().getId());
@@ -164,6 +166,7 @@ public class SalvoController {
                .stream()
                 .map(salvo -> salvo.makeSalvoDTO())
                 .collect(Collectors.toList()));
+        dto.put("hits", gamePlayer.hitsdto(gamePlayer,opponent));
         return dto;
     }
 
