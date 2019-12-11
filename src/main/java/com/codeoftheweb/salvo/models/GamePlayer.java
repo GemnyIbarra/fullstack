@@ -123,19 +123,19 @@ public class GamePlayer {
 
         for (Ship ship: self.getShips()) {
             switch (ship.getType()){
-                case "Aircraft Carrier":
+                case "carrier":
                     carrierLocations = ship.getLocation();
                     break ;
-                case "Battleship" :
+                case "battleship" :
                     battleshipLocations = ship.getLocation();
                     break;
-                case "Destroyer":
+                case "destroyer":
                     destroyerLocations = ship.getLocation();
                     break;
-                case "Submarine":
+                case "submarine":
                     submarineLocations = ship.getLocation();
                     break;
-                case "Patrol Boat":
+                case "patrol_boat":
                     patrolboatLocations = ship.getLocation();
                     break;
             }
@@ -195,7 +195,7 @@ public class GamePlayer {
             damagesPerTurn.put("battleship", battleshipDamage);
             damagesPerTurn.put("submarine", submarineDamage);
             damagesPerTurn.put("destroyer", destroyerDamage);
-            damagesPerTurn.put("patrolboat", patrolboatDamage);
+            damagesPerTurn.put("patrol_boat", patrolboatDamage);
             hitsMapPerTurn.put("turn", salvo.getTurn());
             hitsMapPerTurn.put("hitLocations", hitCellsList);
             hitsMapPerTurn.put("damages", damagesPerTurn);
